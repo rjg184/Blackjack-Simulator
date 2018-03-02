@@ -1,0 +1,107 @@
+Name: Ronak Gandhi
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+- Wagering System (in-depth explanation):
+
+When beginning a game of Blackjack, all players are given a balance of $500 to gamble. Each player must bet an amount and cannot bet 
+more than their balance. Every advanced feature of Blackjack is only available to players with enough money in their balance, so if 
+a player wanted to double down, but he/she did not have enough money, then that player will NOT be given the ability/option to double 
+down. Also, my code/algorithm prevents a player from going into a negative balance (since giving money that a person does not have is 
+not possible), so some features may be skipped (won't be asked to the players) if there is a possibility for that player to go into 
+a negative balance at the end of the game. For this game of Blackjack, I have created a custom wagering system that is neutral for 
+players who tied the dealer, but rewards players if they beat the dealer and punishes (they lose thier money) players who lose 
+against the dealer.
+
+My custom wagering system:
+
+- Player wins
+      - The amount the player bet is originally subtracted from their $500 balance, but if a player wins, then he/she receives 2 
+	times the amount he/she bet. 
+
+	For example: If a player bet $50 and won --> 
+		$500 (initial balance) - $50 (bet) = $450 (current balance) + $100 (rewarded doubled bet amount) = $550 (new balance)
+
+- Player loses
+      - The amount the player bet is originally subtracted from their $500 balance, and if a player loses, then he/she will not gain 
+	any money back
+
+	For example: If a player bet $100 and won -->
+		$500 (initial balance) - $100 (bet) = $400 (new balance)
+
+- Player ties
+      - The amount the player bet is originally subtracted from their $500 balance, but if a player ties (or "pushes") with the 
+	dealer, then that player will receive their bet back
+
+	For example: If a player bet $150 and tied with the dealer -->
+		$500 (initial balance) - $150 (bet) = $350 (current balance) + $150 (original bet) = $500 (new balance)
+
+* * * The examples provided above assume that there are no insurance bets or players who double down
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+- Hints System (in-depth explanation):
+
+For my code, I have chosen to do the following type of hints system:
+"Basic static probabilities based on hand values - you can look up the decision tables on many websites across the web: +8/12 pts"
+
+Before a player starts hitting, doubling down, or splitting, the player is asked if he/she would like a hint. If the answer is yes, 
+then the player is given a message that states "There is a [insert number here]% chance that you will bust." The probablility, 
+which is the percentage provided, of busting if a player hits is based on the score of their hand. If the player chooses not to take 
+the hint, then the player is able to continue their turn (double down, split, hit, stand, etc.).
+
+Since I used an int array to store the card values for each player and the dealer, I chose the path of basic static probabilities 
+because card counting would have required me to create an array for the face values of all the cards dealt, which would have required 
+me to completely change my approach to the assignment/project.
+
+Probabilities obtained from:
+-> http://www.blackjackage.com/odds-hand.php
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+- Problems and Challenges:
+
+This entire project was a challenge for me because I did not have any coding or java experience before enrolling into this class. A 
+problem/challenge that I encountered was how to change the value of an Ace in a player's hand in the middle of the game, depending on 
+the situation/circumstance. I fixed this problem by creating an int array that stored all the card values for each player, so if a 
+player had an ace in their hand and he/she went over the score 21, then the code would adjust the score and subtract 10 from the 
+player's score, as well as replace the card value of the Ace to a 1 in the int array. Another challenge that I encountered was 
+the ability to allow the player to split, as well as the entire process of splitting their hand. I solved this problem by creating 
+2 separate int arrays in the player class that would be used for each hand after a player decided to split. This would allow the 
+hand to stay the same if the player did not want to split, but would start using the hand arrays associated with splitting (and would 
+ignore the original hand). 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+- Deviation from original designs:
+
+At first (after submitting MS1), I thought I would create a Hand class that would deal with both the players' hands and the dealer, 
+but it was easier to create a int hand array in the player and dealer class for their hands separately. Although it would have 
+been easier to incorporate the advanced wagering features using a single Hand array for both the dealer and the players, I did not 
+want to deviate from the design of my MS2.
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+- Advanced Blackjack Features (in-depth explanation):
+
+Doubling Down: 
+	A player is allowed to double down if he/she has enough money to do so. A player who doubles down receives only 1 card (in 
+	addition to the 2 cards dealt before their turn) for their turn. Also, another bet equal to their initial bet is added to 
+	their bet (if a player bet $50 and doubled down, then his/her bet would be $100).
+
+Splitting: 
+	A player is only allowed to split their hand if he/she has 2 cards with the same face values and if he/she has enough money 
+	to do so (a player can theoretically lose double their bet or more if they lose both hands and/or decide to double down for 
+	both hands, so the code automatically determines whether or not a player should be able to carry out an advanced Blackjack 
+	feature).
+
+Insurance:
+	When starting their turns, each player is given the option to do a side insurance bet with the dealer if the dealer has a 
+	face up Ace card. If a player decides to do an insurance bet, then they can bet up to their initial bet, but have to have 
+	enough money to pay the dealer if they loses. If the dealer's face-down card turns out to be any card with a card value of 10, 
+	then each player who did an insurance bet will get rewarded double the amount they bet for insurance. If the dealer's 
+	face-down card turns out to be any card that does not have a card value of 10, then each player who did an insurance bet will 
+	lose the amount he/she bet for insurance.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
